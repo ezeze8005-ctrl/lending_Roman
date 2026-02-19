@@ -2,7 +2,7 @@
 <html lang="ru">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Роман Петров</title>
     <link
       rel="stylesheet"
@@ -184,6 +184,15 @@
         box-shadow: 0 24px 40px rgba(0, 0, 0, 0.22);
       }
 
+      .hero-image-overlay {
+        display: none;
+      }
+
+      .hero-media > .hero-subtitle--mobile {
+        display: none;
+      }
+
+
       .hero-image img {
         display: block;
         width: 100%;
@@ -253,7 +262,11 @@
 
       .hero-text-line {
         display: block;
-        white-space: nowrap;
+        white-space: normal;
+      }
+
+      .hero-text-break-mobile {
+        display: none;
       }
 
       .reveal-item {
@@ -473,6 +486,22 @@
         text-align: center;
         white-space: normal;
         overflow-wrap: anywhere;
+      }
+
+      .hero-note--mobile {
+        display: none;
+      }
+
+      .hero-note--desktop {
+        display: block;
+      }
+
+      .requests-subtitle-mobile {
+        display: none;
+      }
+
+      .requests-subtitle-desktop {
+        display: block;
       }
 
       .cta {
@@ -988,10 +1017,16 @@
       }
 
       .experience-logos-track img {
-        height: 96px;
+        height: 118px;
         width: auto;
         max-width: 100%;
         object-fit: contain;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
         filter: brightness(0) saturate(100%) invert(86%) sepia(22%) saturate(341%)
           hue-rotate(338deg) brightness(99%) contrast(91%);
       }
@@ -1355,6 +1390,50 @@
         }
       }
 
+      @media (max-width: 1200px) {
+        .experience-strip {
+          margin-top: 34px;
+          padding: 24px 0;
+          max-width: min(100%, 760px);
+        }
+
+        .experience-strip::before,
+        .experience-strip::after {
+          width: 100%;
+          clip-path: polygon(0 50%, 2.8% 0, 97.2% 0, 100% 50%, 97.2% 100%, 2.8% 100%);
+        }
+
+        .experience-line {
+          display: none;
+        }
+
+        .experience-logos {
+          padding: 14px 0;
+          -webkit-mask-image: none;
+          mask-image: none;
+        }
+
+        .experience-logos-track {
+          width: 100%;
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: clamp(12px, 3.2vw, 30px);
+          justify-items: center;
+          animation: none;
+          -webkit-animation: none;
+          transform: none;
+        }
+
+        .experience-logos-track img {
+          height: clamp(62px, 7.6vw, 88px);
+          max-width: min(100%, 220px);
+        }
+
+        .experience-logos-track img:nth-child(n + 4) {
+          display: none;
+        }
+      }
+
       @media (max-width: 900px) {
         :root {
           --mobile-section-gap: clamp(40px, 9vw, 64px);
@@ -1368,6 +1447,10 @@
           padding: 14px var(--page-gutter) 40px;
         }
 
+        body {
+          background: var(--bg);
+        }
+
         .page > section {
           margin-top: var(--mobile-section-gap);
         }
@@ -1377,8 +1460,9 @@
         }
 
         .hero {
+          --hero-mobile-block-gap: clamp(18px, 4.8vw, 28px);
           grid-template-columns: 1fr;
-          gap: clamp(18px, 4.6vw, 34px);
+          gap: var(--hero-mobile-block-gap);
           width: 100%;
           justify-items: center;
         }
@@ -1393,20 +1477,102 @@
           justify-self: center;
         }
 
+        .hero-image-overlay {
+          position: absolute;
+          left: clamp(12px, 4.2vw, 22px);
+          right: clamp(12px, 4.2vw, 22px);
+          bottom: clamp(14px, 4vw, 22px);
+          display: grid;
+          justify-items: start;
+          gap: 8px;
+          z-index: 2;
+          text-align: left;
+        }
+
+        .hero-title--mobile,
+        .hero-subtitle--mobile {
+          color: #ffffff;
+          -webkit-text-fill-color: #ffffff;
+          text-shadow: 0 2px 14px rgba(0, 0, 0, 0.52);
+          width: 100%;
+          max-width: 100%;
+        }
+
+        .hero-title--mobile {
+          margin: 0;
+          font-size: clamp(24px, 7.8vw, 42px);
+          line-height: 1.04;
+          text-wrap: balance;
+        }
+
+        .hero-title--mobile::after {
+          display: none;
+        }
+
+        .hero-subtitle--mobile {
+          margin: 0;
+          padding-bottom: 10px;
+          font-size: clamp(11px, 3.1vw, 15px);
+          line-height: 1.3;
+          letter-spacing: 0.01em;
+        }
+
+        .hero-subtitle--mobile::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          height: 2px;
+          background: linear-gradient(90deg, #a66a3f 0%, #e4bca0 50%, #a66a3f 100%);
+          clip-path: polygon(0 50%, 6% 0, 94% 0, 100% 50%, 94% 100%, 6% 100%);
+        }
+
+
+        .hero-media > .hero-subtitle--mobile {
+          display: block;
+          margin: var(--hero-mobile-block-gap) auto 0;
+          color: #0a2339;
+          -webkit-text-fill-color: #0a2339;
+          text-shadow: none;
+          text-align: center;
+          position: relative;
+          max-width: min(100%, 480px);
+          padding-bottom: 14px;
+        }
+
+        .hero-media > .hero-subtitle--mobile::after {
+          left: 0;
+          right: 0;
+        }
+
         .hero-content {
           width: 100%;
           min-height: auto;
           max-width: min(100%, 560px);
           margin-inline: auto;
-          margin-left: 0;
+          justify-self: center;
           align-items: center;
           text-align: center;
           padding-top: 0;
           gap: clamp(10px, 2.8vw, 18px);
         }
 
+        .stat-card--entrepreneurship p {
+          padding-left: 10px;
+        }
+
         .hero-intro {
           max-width: 100%;
+        }
+
+        .hero-text {
+          text-align: center;
+        }
+
+        .hero-text-line {
+          white-space: normal;
+          text-align: center;
         }
 
         .top-nav {
@@ -1446,9 +1612,9 @@
 
         .bottom-actions {
           margin: 0;
-          padding-top: 18px;
-          padding-bottom: 0;
-          gap: 24px;
+          padding-top: clamp(28px, 7vw, 44px);
+          padding-bottom: clamp(20px, 5vw, 32px);
+          gap: 30px;
         }
 
         .method-section {
@@ -1482,7 +1648,9 @@
         .requests-subtitle {
           font-size: clamp(14px, 3.8vw, 17px);
           margin-bottom: 24px;
-          max-width: min(100%, 36ch);
+          max-width: 100%;
+          padding-inline: 16px;
+          text-align: center;
           color: var(--mobile-text-soft);
         }
 
@@ -1493,24 +1661,47 @@
         .request-card {
           width: 100%;
           height: auto;
-          padding: clamp(20px, 5vw, 28px) clamp(16px, 4.5vw, 24px) clamp(20px, 5vw, 28px);
+          padding: clamp(22px, 5.4vw, 30px) clamp(16px, 4.5vw, 24px) clamp(24px, 6vw, 32px);
           min-height: auto;
-          aspect-ratio: 1 / 1.19;
+          aspect-ratio: 1 / 1.12;
+          justify-content: space-between;
+        }
+
+        .request-card h3 {
+          margin: 0;
+          font-size: clamp(22px, 7.4vw, 42px);
+          text-transform: none;
+          line-height: 1.14;
+        }
+
+        .request-card ul {
+          margin-top: clamp(8px, 2.4vw, 14px);
+          margin-bottom: clamp(12px, 3vw, 18px);
+          align-self: center;
+          width: min(100%, 260px);
+          font-size: clamp(15px, 4.5vw, 24px);
+          line-height: 1.32;
         }
 
         .cta {
-          width: auto;
-          max-width: 300px;
-          min-width: 220px;
+          width: min(100%, 236px);
+          min-width: 0;
+          aspect-ratio: 236 / 92;
+        }
+
+        .cta--primary::before,
+        .cta--secondary::before {
+          inset: 7px;
+          border-width: 0.8px;
         }
 
         .experience-section {
           margin-top: 0;
           margin-bottom: 0;
           padding: 30px 0;
-          width: 100%;
-          margin-left: 0;
-          margin-right: 0;
+          width: calc(100% + (var(--page-gutter) * 2));
+          margin-left: calc(var(--page-gutter) * -1);
+          margin-right: calc(var(--page-gutter) * -1);
         }
 
         .experience-title {
@@ -1531,13 +1722,44 @@
         }
 
         .experience-strip {
-          padding: 20px 16px;
+          margin-top: 30px;
+          padding: 20px 0;
+        }
+
+        .experience-logos {
+          padding: 18px 0;
+          -webkit-mask-image: linear-gradient(
+            to right,
+            transparent 0%,
+            #000 10%,
+            #000 90%,
+            transparent 100%
+          );
+          mask-image: linear-gradient(
+            to right,
+            transparent 0%,
+            #000 10%,
+            #000 90%,
+            transparent 100%
+          );
+        }
+
+        .experience-logos-track {
+          --logo-gap: clamp(12px, 3.2vw, 24px);
+          width: max-content;
+          display: flex;
+          align-items: center;
+          gap: var(--logo-gap);
+          animation: experienceScroll 28s linear infinite;
+          -webkit-animation: experienceScroll 28s linear infinite;
+          transform: translate3d(0, 0, 0);
         }
 
         .stats {
           grid-template-columns: 1fr;
           gap: clamp(12px, 3.6vw, 20px);
           margin-top: -12px;
+          margin-bottom: clamp(18px, 4.8vw, 30px);
           padding: 0;
           width: 100%;
         }
@@ -1560,8 +1782,14 @@
           letter-spacing: 0.01em;
         }
 
-        .experience-logos {
-          padding: 18px 0;
+        .experience-logos-track img {
+          height: clamp(56px, 14.8vw, 98px);
+          max-width: min(100%, 220px);
+          flex: 0 0 auto;
+        }
+
+        .experience-logos-track img:nth-child(n + 4) {
+          display: block;
         }
 
         .consult-section {
@@ -1577,18 +1805,29 @@
         }
 
         .consult-card {
-          padding: clamp(20px, 5vw, 28px) clamp(16px, 4.5vw, 24px)
+          padding: clamp(22px, 5.4vw, 30px) clamp(16px, 4.5vw, 24px)
             clamp(24px, 6vw, 34px);
           width: 100%;
           max-width: none;
           min-height: 0;
-          aspect-ratio: 1.28 / 1;
+          aspect-ratio: 1 / 1.03;
+          justify-content: space-between;
+          gap: clamp(10px, 2.8vw, 18px);
         }
 
         .consult-title {
-          font-size: clamp(20px, 6.4vw, 28px);
+          font-size: clamp(22px, 7.6vw, 44px);
           text-align: center;
           text-wrap: balance;
+          text-transform: none;
+          line-height: 1.14;
+        }
+
+        .consult-details {
+          margin: clamp(8px, 2.6vw, 14px) 0;
+          font-size: clamp(15px, 4.5vw, 24px);
+          line-height: 1.32;
+          text-shadow: none;
         }
 
         .info-footer-meta-branding {
@@ -1603,10 +1842,10 @@
 
         .request-more,
         .consult-button {
-          width: min(100%, 220px);
-          aspect-ratio: 220 / 54;
+          width: min(100%, 236px);
+          aspect-ratio: 236 / 92;
           padding: 0 16px;
-          font-size: 13px;
+          font-size: 15px;
         }
 
         .contacts-section {
@@ -1632,7 +1871,7 @@
 
 
         .info-footer {
-          padding: 40px var(--page-gutter) 40px;
+          padding: 12px var(--page-gutter) 40px;
           text-align: left;
         }
 
@@ -1699,6 +1938,9 @@
         .method-panel[data-request-crisis-panel] .method-panel__card {
           width: min(100%, 520px);
           max-width: min(100%, 520px);
+          aspect-ratio: 1 / 1.03;
+          padding-top: clamp(24px, 6vw, 34px);
+          padding-bottom: clamp(22px, 5.4vw, 32px);
         }
 
         .method-panel__text {
@@ -1711,6 +1953,7 @@
         .method-panel[data-experience-panel] .method-panel__text {
           padding: 0;
           text-align: center;
+          margin: auto 0;
         }
 
         .method-panel[data-method-panel] .method-panel__text {
@@ -1742,7 +1985,7 @@
         .method-panel[data-request-panel] .method-panel__close,
         .method-panel[data-request-team-panel] .method-panel__close,
         .method-panel[data-request-crisis-panel] .method-panel__close {
-          transform: translateY(8px);
+          transform: none;
         }
 
         .hero-subtitle {
@@ -1769,21 +2012,34 @@
           -webkit-text-fill-color: transparent;
         }
 
+        .hero-intro .hero-title,
+        .hero-intro .hero-subtitle {
+          display: none;
+        }
+
         .hero-title::after {
           width: 100%;
         }
 
         .hero-text {
-          margin: 0 auto 20px;
-          font-size: clamp(15px, 4.2vw, 20px);
-          line-height: 1.52;
+          margin: 0 auto 32px;
+          font-size: 15px;
+          line-height: 1.46;
           text-align: center;
-          max-width: min(100%, 35ch);
+          max-width: 100%;
+          padding-inline: 24px;
           color: var(--mobile-text-soft);
+          -webkit-text-size-adjust: 100%;
+          text-size-adjust: 100%;
         }
 
         .hero-text-line {
-          white-space: normal;
+          display: block;
+          white-space: nowrap;
+        }
+
+        .hero-text-break-mobile {
+          display: block;
         }
 
         .hero-note,
@@ -1814,6 +2070,10 @@
       }
 
       @media (max-width: 560px) {
+        .request-card {
+          min-height: 380px;
+        }
+
         .method-panel__close .cta {
           width: clamp(94px, 28vw, 116px);
           aspect-ratio: 116 / 36;
@@ -1843,11 +2103,516 @@
         .cta {
           min-width: 0;
           width: 100%;
-          max-width: 260px;
+          max-width: 224px;
+          aspect-ratio: auto;
+          min-height: 56px;
+          height: 56px;
+          border-radius: 10px;
+          font-size: 15px;
+          padding: 0 18px;
+        }
+
+        .request-more {
+          width: 100%;
+          max-width: 224px;
+          height: 56px;
+          min-height: 56px;
+          aspect-ratio: auto;
+          border-radius: 10px;
+          font-size: 15px;
+          padding: 0 18px;
+        }
+
+        .cta::before {
+          inset: 5px;
+          border-radius: 7px;
+          border-width: 0.8px;
         }
 
         .bottom-actions {
           align-items: center;
+        }
+      }
+
+      @media (max-width: 480px) {
+        :root {
+          --mobile-header-height: 70px;
+        }
+
+        body {
+          background: var(--bg);
+        }
+
+        .page,
+        .info-footer {
+          max-width: 402px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .page {
+          padding: 10px 12px 36px;
+        }
+
+        .top-nav {
+          position: sticky;
+          top: 0;
+          z-index: 10;
+          margin: 0 -4px 18px;
+          padding: 10px 8px 12px;
+          background: rgba(255, 255, 255, 0.92);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border-radius: 0 0 12px 12px;
+          flex-direction: column;
+        }
+
+        .top-nav::after {
+          height: 1px;
+          bottom: 0;
+          left: 10px;
+          right: 10px;
+          background: linear-gradient(90deg, transparent, #a66a3f 24%, #e4bca0 50%, #a66a3f 76%, transparent);
+          clip-path: none;
+        }
+
+        .nav-links {
+          width: 100%;
+          justify-content: center;
+          gap: 12px;
+          font-size: 14px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          line-height: 1.2;
+          color: #0a2339;
+        }
+
+        .nav-links a {
+          padding-bottom: 0;
+        }
+
+        .nav-links a::after {
+          display: none;
+        }
+
+        .telegram-pill {
+          display: none;
+        }
+
+        #about,
+        #consult,
+        #contacts {
+          scroll-margin-top: calc(var(--mobile-header-height) + 10px);
+        }
+
+        .stats {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+
+        .stat-card {
+          background: #ffffff;
+          border-top: 3px solid #a66a3f;
+          border-radius: 10px;
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+          padding: 12px 16px;
+          min-height: 90px;
+          aspect-ratio: auto;
+          align-items: center;
+          justify-content: center;
+          flex-direction: row;
+          gap: 14px;
+          text-align: left;
+        }
+
+        .stat-card h3 {
+          flex: 0 0 56px;
+          font-size: 40px;
+          color: #0a2339;
+        }
+
+        .stat-card p {
+          flex: 1;
+          text-align: left;
+          color: #0a2339;
+          font-size: 16px;
+          line-height: 1.35;
+        }
+
+        .requests-grid,
+        .consult-grid {
+          grid-template-columns: 1fr;
+          gap: 18px;
+        }
+
+        .request-card,
+        .consult-card {
+          width: 100%;
+          aspect-ratio: auto;
+          min-height: 0;
+          border-top: 3px solid #a66a3f;
+          border-radius: 10px;
+          background: #ffffff;
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+          padding: 16px 16px 18px;
+        }
+
+        .request-card h3,
+        .consult-title {
+          font-size: clamp(22px, 6vw, 28px);
+          text-align: center;
+          color: #0a2339;
+        }
+
+        .request-card ul {
+          list-style: disc;
+          list-style-position: outside;
+          padding-left: 20px;
+          margin-top: 14px;
+          color: #0a2339;
+          text-align: left;
+          font-size: 17px;
+          line-height: 1.45;
+        }
+
+        .consult-details {
+          color: #0a2339;
+          text-shadow: none;
+        }
+
+        .request-more,
+        .consult-button {
+          width: 100%;
+          max-width: none;
+          height: 56px;
+          min-height: 56px;
+          aspect-ratio: auto;
+          border-radius: 16px;
+          border-width: 2px;
+          font-size: 16px;
+        }
+
+        .hero-note--desktop {
+          display: none;
+        }
+
+        .hero-note--mobile {
+          display: block;
+          margin: 20px auto;
+          padding-inline: 16px;
+        }
+
+        .footer-strip {
+          margin-top: 24px;
+        }
+
+        .method-section {
+          padding-top: 0;
+        }
+
+        .requests-subtitle-desktop {
+          display: none;
+        }
+
+        .requests-subtitle-mobile {
+          display: block;
+          white-space: normal;
+        }
+      }
+
+      @media (min-width: 481px) and (max-width: 1024px) {
+        :root {
+          --mobile-header-height: 76px;
+        }
+
+        .hero-text {
+          max-width: 100%;
+          line-height: 1.46;
+          padding-inline: 24px;
+        }
+
+        .top-nav {
+          position: sticky;
+          top: 0;
+          z-index: 10;
+          margin: 0 0 18px;
+          padding: 10px 12px 12px;
+          background: rgba(255, 255, 255, 0.92);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border-radius: 0 0 12px 12px;
+          flex-direction: column;
+        }
+
+        .top-nav::after {
+          height: 1px;
+          bottom: 0;
+          left: 10px;
+          right: 10px;
+          background: linear-gradient(90deg, transparent, #a66a3f 24%, #e4bca0 50%, #a66a3f 76%, transparent);
+          clip-path: none;
+        }
+
+        .nav-links {
+          width: 100%;
+          justify-content: center;
+          gap: clamp(12px, 2vw, 20px);
+          font-size: clamp(14px, 1.8vw, 18px);
+          letter-spacing: 0.08em;
+          line-height: 1.2;
+          color: #0a2339;
+        }
+
+        .nav-links a {
+          padding-bottom: 0;
+        }
+
+        .nav-links a::after {
+          display: none;
+        }
+
+        .telegram-pill {
+          display: none;
+        }
+
+        #about,
+        #consult,
+        #contacts {
+          scroll-margin-top: calc(var(--mobile-header-height) + 10px);
+        }
+
+        .stats,
+        .requests-grid,
+        .consult-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .stats {
+          gap: 12px;
+        }
+
+        .stat-card,
+        .request-card,
+        .consult-card {
+          width: 100%;
+          aspect-ratio: auto;
+          min-height: 0;
+          border-top: 3px solid #a66a3f;
+          border-radius: 10px;
+          background: #ffffff;
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-card {
+          padding: 12px 18px;
+          align-items: center;
+          justify-content: center;
+          flex-direction: row;
+          gap: 16px;
+          text-align: left;
+        }
+
+        .stat-card h3,
+        .stat-card p {
+          color: #0a2339;
+          text-align: left;
+        }
+
+        .stat-card h3 {
+          flex: 0 0 64px;
+          font-size: clamp(36px, 6vw, 44px);
+        }
+
+        .stat-card p {
+          flex: 1;
+          font-size: clamp(15px, 2.2vw, 18px);
+          line-height: 1.35;
+        }
+
+        .request-card,
+        .consult-card {
+          padding: 16px 16px 18px;
+        }
+
+        .request-card h3,
+        .consult-title {
+          color: #0a2339;
+          text-align: center;
+        }
+
+        .request-card ul {
+          list-style: disc;
+          list-style-position: outside;
+          padding-left: 20px;
+          margin-top: 14px;
+          color: #0a2339;
+          text-align: left;
+          line-height: 1.45;
+        }
+
+        .consult-details {
+          color: #0a2339;
+          text-shadow: none;
+        }
+
+        .request-more,
+        .consult-button {
+          width: 100%;
+          max-width: none;
+          height: 56px;
+          min-height: 56px;
+          aspect-ratio: auto;
+          border-radius: 16px;
+          border-width: 2px;
+          font-size: 16px;
+        }
+      }
+
+      @media (max-width: 1024px) {
+        .stats {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 12px;
+          width: 100%;
+          max-width: none;
+          padding: 0;
+        }
+
+        .stat-card {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          min-height: 90px;
+          padding: 12px 16px;
+          border-top: 3px solid #a66a3f;
+          border-radius: 10px;
+          background: #ffffff;
+          box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+          aspect-ratio: auto;
+          gap: 14px;
+          text-align: left;
+        }
+
+        .stat-card h3 {
+          margin: 0;
+          flex: 0 0 56px;
+          font-size: 40px;
+          line-height: 1;
+          text-align: left;
+          font-variant-numeric: tabular-nums;
+          color: #0a2339;
+        }
+
+        .stat-card p {
+          margin: 0;
+          flex: 1;
+          color: #0a2339;
+          text-align: left;
+          line-height: 1.35;
+        }
+
+      }
+
+      @media (max-width: 900px) {
+        .requests-grid {
+          justify-items: center;
+          gap: clamp(18px, 5vw, 26px);
+          padding: 0;
+        }
+
+        .consult-grid {
+          justify-items: center;
+          gap: clamp(16px, 4.8vw, 24px);
+          padding: 0;
+        }
+
+        .consult-grid .consult-card {
+          width: min(100%, 360px);
+          aspect-ratio: 1.21 / 1;
+          min-height: 0;
+          padding: clamp(20px, 5.4vw, 28px) clamp(16px, 4.8vw, 24px)
+            clamp(18px, 5vw, 24px);
+          border-top: 3px solid #a66a3f;
+          border-radius: 10px;
+          background: #ffffff;
+          box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+          justify-content: flex-start;
+          gap: clamp(12px, 3.2vw, 18px);
+          overflow: hidden;
+        }
+
+        .consult-grid .consult-title {
+          margin: 0;
+          font-size: clamp(36px, 9vw, 48px);
+          font-weight: 400;
+          line-height: 1.1;
+          text-transform: none;
+          color: #2f2a25;
+        }
+
+        .consult-grid .consult-details {
+          margin: auto 0;
+          width: 100%;
+          font-size: clamp(14px, 3.7vw, 18px);
+          line-height: 1.45;
+          color: #2f2a25;
+          text-align: center;
+          text-shadow: none;
+        }
+
+        .consult-grid .consult-button {
+          width: min(100%, 210px);
+          min-height: 42px;
+          height: auto;
+          aspect-ratio: 3.3 / 1;
+          border-radius: 9px;
+          padding: 0 14px;
+          font-size: clamp(13px, 3.4vw, 16px);
+          margin-top: auto;
+        }
+
+        .requests-grid .request-card {
+          width: min(100%, 360px);
+          aspect-ratio: 1 / 1;
+          min-height: 0;
+          padding: clamp(24px, 6.2vw, 32px) clamp(16px, 4.8vw, 22px)
+            clamp(18px, 5vw, 24px);
+          border-top: 3px solid #a66a3f;
+          border-radius: 10px;
+          background: #ffffff;
+          box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+          justify-content: flex-start;
+        }
+
+        .requests-grid .request-card h3 {
+          margin: 0;
+          font-size: clamp(24px, 9vw, 34px);
+          line-height: 1.1;
+          font-weight: 400;
+          text-transform: none;
+        }
+
+        .requests-grid .request-card ul {
+          width: 100%;
+          max-width: none;
+          margin-top: auto;
+          margin-bottom: auto;
+          padding-left: 18px;
+          font-size: clamp(15px, 4.2vw, 18px);
+          line-height: 1.45;
+          align-self: stretch;
+        }
+
+        .requests-grid .request-more {
+          width: min(100%, 200px);
+          min-height: 42px;
+          height: auto;
+          aspect-ratio: 3.2 / 1;
+          border-radius: 10px;
+          font-size: clamp(14px, 3.8vw, 17px);
+          margin-top: auto;
         }
       }
 
@@ -1907,6 +2672,12 @@
           <div class="hero-media">
             <div class="hero-image reveal-item reveal-from-left" data-reveal>
               <img src="assets/Roman4.webp" alt="Роман Петров" />
+              <div class="hero-image-overlay" aria-hidden="true">
+                <h1 class="hero-title hero-title--mobile">РОМАН ПЕТРОВ</h1>
+              </div>
+            </div>
+            <div class="hero-subtitle hero-subtitle--mobile">
+              БИЗНЕС-ПСИХОЛОГ · ПСИХОАНАЛИТИЧЕСКИЙ КОУЧ · ПРЕДПРИНИМАТЕЛЬ
             </div>
           </div>
           <div
@@ -1921,13 +2692,7 @@
               </div>
               <p class="hero-text">
                 <span class="hero-text-line"
-                  >Моя сфера — профессиональные запросы, где ключевая</span
-                >
-                <span class="hero-text-line"
-                  >трудность лежит не в техническом, а в психологическом</span
-                >
-                <span class="hero-text-line"
-                  >аспекте решений, страхов и внутренних ограничений.</span
+                  >Моя сфера — профессиональные запросы, <br class="hero-text-break-mobile" />где ключевая трудность лежит не в технической, <br class="hero-text-break-mobile" />а в психологическом аспекте решений, страхов <br class="hero-text-break-mobile" />и внутренних ограничений.</span
                 >
               </p>
             </div>
@@ -1935,17 +2700,13 @@
         </section>
 
         <section class="stats is-visible" aria-label="Опыт" data-reveal>
-          <div class="stat-card reveal-item reveal-from-bottom" data-reveal data-reveal-delay="0.2s">
+          <div class="stat-card stat-card--entrepreneurship reveal-item reveal-from-bottom" data-reveal data-reveal-delay="0.2s">
             <h3>9+</h3>
-            <p>лет опыта<br />в предпринимательстве</p>
+            <p>лет опыта в предпринимательстве</p>
           </div>
           <div class="stat-card reveal-item reveal-from-bottom" data-reveal data-reveal-delay="0.35s">
             <h3>11+</h3>
-            <p>
-              лет управленческого
-              <br />
-              опыта
-            </p>
+            <p>лет управленческого опыта</p>
           </div>
           <div class="stat-card reveal-item reveal-from-bottom" data-reveal data-reveal-delay="0.5s">
             <h3>14+</h3>
@@ -1955,7 +2716,7 @@
       </div>
 
       <section class="bottom-actions reveal-item reveal-from-bottom" aria-label="Подход и связь" data-reveal>
-        <p class="hero-note">
+        <p class="hero-note hero-note--desktop">
           Научно-обоснованный подход к бизнес-запросам от НИУ ВШЭ / INSEAD
         </p>
         <a
@@ -1976,6 +2737,9 @@
         aria-label="Метод"
         data-reveal
       >
+        <p class="hero-note hero-note--mobile">
+          Научно-обоснованный подход к бизнес-запросам от НИУ ВШЭ / INSEAD
+        </p>
         <div class="method-logos">
           <img src="assets/School.svg" alt="НИУ ВШЭ" />
           <img src="assets/Insead.svg" alt="INSEAD" />
@@ -1986,14 +2750,20 @@
       <section class="requests-section reveal-item reveal-from-bottom" aria-label="Запросы" data-reveal>
         <h2 class="requests-title">Запросы</h2>
         <p class="requests-subtitle">
-          <span class="requests-subtitle-line">
-            Я помогаю предпринимателям, экспертам, руководителям и их командам
+          <span class="requests-subtitle-line requests-subtitle-desktop">
+            Я помогаю предпринимателям, экспертам, руководителям и их
+            командам
           </span>
-          <span class="requests-subtitle-line">
-            проходить профессиональные вызовы и изменения
+          <span class="requests-subtitle-line requests-subtitle-desktop">
+            проходить профессиональные вызовы и изменения через
+            научно-обоснованный метод психоаналитического коучинга.
           </span>
-          <span class="requests-subtitle-line">
-            через научно-доказанный метод психоаналитического коучинга.
+          <span class="requests-subtitle-line requests-subtitle-mobile">
+            Я помогаю предпринимателям, экспертам,<br />
+            руководителям и их командам проходить <br />
+            профессиональные вызовы и изменения <br />
+            через научно-обоснованный метод <br />
+            психоаналитического коучинга.
           </span>
         </p>
         <div class="requests-grid">
